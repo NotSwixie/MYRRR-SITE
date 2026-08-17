@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MYRRR // SIGNAL LOST</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    min-height: 100%;
+    background: #050505;
+    color: #ddd;
+    font-family: "Courier New", monospace;
+    overflow-x: hidden;
+}
+
+body {
+    position: relative;
+    background:
+        radial-gradient(circle at 50% 30%, #181818 0%, #070707 45%, #000 100%);
+}
+
+/* =========================
+   VHS OVERLAY
+========================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255,255,255,0.025) 0px,
+            rgba(255,255,255,0.025) 1px,
+            transparent 2px,
+            transparent 4px
+        );
+
+    animation: scanlines 0.15s infinite;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: -20%;
+    pointer-events: none;
+    z-index: 1000;
+
+    opacity: 0.12;
+
+    background-image:
+        repeating-radial-gradient(
+            circle at 20% 30%,
+            #fff 0px,
+            transparent 1px,
+            transparent 3px
+        );
+
+    background-size: 5px 5px;
+    animation: noise 0.15s steps(2) infinite;
+    mix-blend-mode: screen;
+}
+
+@keyframes scanlines {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(2px); }
+    100% { transform: translateY(-2px); }
+}
+
+@keyframes noise {
+    0% { transform: translate(0,0); }
+    25% { transform: translate(4%, -3%); }
+    50% { transform: translate(-3%, 4%); }
+    75% { transform: translate(3%, 3%); }
+    100% { transform: translate(-4%, -2%); }
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.container {
+    width: min(900px, 92%);
+    margin: auto;
+    padding: 45px 0 80px;
+    position: relative;
+    z-index: 5;
+}
+
+/* VHS timestamp */
+
+.timestamp {
+    position: fixed;
+    top: 15px;
+    left: 18px;
+
+    font-size: 11px;
+    color: #aaa;
+
+    text-shadow:
+        2px 0 #f00,
+        -2px 0 #0ff;
+
+    opacity: .75;
+    z-index: 20;
+}
+
+.rec {
+    position: fixed;
+    top: 15px;
+    right: 18px;
+
+    color: #ddd;
+    font-size: 12px;
+
+    z-index: 20;
+}
+
+.rec::before {
+    content: "";
+    display: inline-block;
+
+    width: 7px;
+    height: 7px;
+
+    margin-right: 6px;
+
+    background: #d00000;
+    border-radius: 50%;
+
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% { opacity: .15; }
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.logo {
+    font-size: clamp(45px, 11vw, 100px);
+    letter-spacing: -7px;
+    font-weight: bold;
+
+    color: #eee;
+
+    text-shadow:
+        4px 0 #8c0000,
+        -4px 0 #003c3c,
+        0 0 25px rgba(255,255,255,.1);
+
+    animation: glitch 3s infinite;
+}
+
+@keyframes glitch {
+    0%, 85%, 100% {
+        transform: translate(0);
+        filter: none;
+    }
+
+    86% {
+        transform: translate(-4px, 1px);
+        filter: blur(.5px);
+    }
+
+    87% {
+        transform: translate(5px, -2px);
+        filter: contrast(1.8);
+    }
+
+    88% {
+        transform: translate(-2px, 2px);
+    }
+
+    89% {
+        transform: translate(0);
+    }
+}
+
+.subtitle {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #777;
+    letter-spacing: 4px;
+}
+
+/* =========================
+   PFP
+========================= */
+
+.pfp-container {
+    width: 230px;
+    height: 230px;
+    margin: 0 auto 25px;
+
+    position: relative;
+}
+
+.pfp {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    border: 1px solid #555;
+
+    filter:
+        grayscale(.25)
+        contrast(1.2)
+        brightness(.8);
+
+    box-shadow:
+        0 0 0 2px #111,
+        0 0 30px rgba(255,255,255,.05);
+
+    transition: .2s;
+}
+
+.pfp-container::before,
+.pfp-container::after {
+    content: "";
+    position: absolute;
+    inset: -7px;
+
+    border: 1px solid rgba(255,255,255,.15);
+
+    pointer-events: none;
+}
+
+.pfp-container::after {
+    inset: 7px;
+
+    border-color: rgba(120,0,0,.25);
+
+    animation: pfpGlitch 2.7s infinite;
+}
+
+@keyframes pfpGlitch {
+    0%, 90%, 100% {
+        transform: translate(0);
+    }
+
+    92% {
+        transform: translate(5px,-2px);
+    }
+
+    94% {
+        transform: translate(-4px,2px);
+    }
+
+    96% {
+        transform: translate(0);
+    }
+}
+
+/* =========================
+   CHANGE PFP
+========================= */
+
+.controls {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.change-btn {
+    display: inline-block;
+
+    padding: 10px 18px;
+
+    border: 1px solid #555;
+    background: #090909;
+
+    color: #aaa;
+
+    font-family: inherit;
+    font-size: 11px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.change-btn:hover {
+    color: white;
+    border-color: white;
+
+    box-shadow:
+        4px 0 #8c0000,
+        -4px 0 #003c3c;
+}
+
+#fileInput {
+    display: none;
+}
+
+.small {
+    display: block;
+    margin-top: 8px;
+
+    font-size: 9px;
+    color: #555;
+}
+
+/* =========================
+   BIO
+========================= */
+
+.panel {
+    position: relative;
+
+    border: 1px solid #252525;
+    background: rgba(5,5,5,.82);
+
+    padding: 25px;
+
+    margin-bottom: 22px;
+
+    box-shadow:
+        inset 0 0 40px rgba(255,255,255,.015);
+}
+
+.panel::before {
+    content: "/// SIGNAL";
+    position: absolute;
+
+    top: -7px;
+    left: 15px;
+
+    padding: 0 7px;
+
+    background: #050505;
+
+    color: #555;
+
+    font-size: 9px;
+}
+
+.panel h2 {
+    font-size: 13px;
+    color: #aaa;
+    margin-bottom: 18px;
+
+    letter-spacing: 3px;
+}
+
+.bio {
+    color: #888;
+    line-height: 1.8;
+    font-size: 13px;
+}
+
+.highlight {
+    color: #ddd;
+}
+
+.red {
+    color: #9d0000;
+}
+
+/* =========================
+   LINKS
+========================= */
+
+.links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+}
+
+.link {
+    display: block;
+
+    padding: 14px;
+
+    border: 1px solid #252525;
+
+    color: #777;
+    text-decoration: none;
+
+    background: #080808;
+
+    transition: .15s;
+}
+
+.link:hover {
+    color: white;
+
+    transform: translateX(3px);
+
+    border-color: #666;
+
+    text-shadow:
+        2px 0 #800000,
+        -2px 0 #004444;
+}
+
+.link span {
+    display: block;
+    font-size: 9px;
+    color: #444;
+    margin-bottom: 5px;
+}
+
+/* =========================
+   TERMINAL
+========================= */
+
+.terminal {
+    font-size: 11px;
+    line-height: 1.8;
+    color: #666;
+}
+
+.cursor {
+    display: inline-block;
+    width: 7px;
+    height: 12px;
+    background: #aaa;
+
+    animation: cursor 1s infinite;
+}
+
+@keyframes cursor {
+    50% { opacity: 0; }
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    text-align: center;
+
+    margin-top: 50px;
+
+    font-size: 9px;
+    color: #333;
+
+    letter-spacing: 2px;
+}
+
+/* =========================
+   RANDOM VHS DISTORTION
+========================= */
+
+.glitch-bar {
+    position: fixed;
+
+    width: 100%;
+    height: 2px;
+
+    left: 0;
+
+    background: rgba(255,255,255,.15);
+
+    pointer-events: none;
+
+    z-index: 998;
+
+    animation: bar 6s infinite;
+}
+
+@keyframes bar {
+    0%, 80%, 100% {
+        top: -10%;
+        opacity: 0;
+    }
+
+    82% {
+        top: 35%;
+        opacity: .5;
+    }
+
+    83% {
+        top: 36%;
+        opacity: 0;
+    }
+
+    91% {
+        top: 73%;
+        opacity: .35;
+    }
+
+    92% {
+        opacity: 0;
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    .container {
+        padding-top: 65px;
+    }
+
+    .pfp-container {
+        width: 180px;
+        height: 180px;
+    }
+
+    .panel {
+        padding: 18px;
+    }
+
+    .logo {
+        letter-spacing: -4px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="timestamp" id="clock">
+00:00:00
+</div>
+
+<div class="rec">
+REC
+</div>
+
+<div class="glitch-bar"></div>
+
+<main class="container">
+
+    <header class="header">
+
+        <div class="pfp-container">
+
+            <img
+                id="profilePicture"
+                class="pfp"
+                src="https://placehold.co/600x600/050505/777?text=MYRRR"
+                alt="MYRRR PFP"
+            >
+
+        </div>
+
+        <div class="controls">
+
+            <label for="fileInput" class="change-btn">
+                [ CHANGE SIGNAL ]
+            </label>
+
+            <input
+                id="fileInput"
+                type="file"
+                accept="image/*,video/*"
+            >
+
+            <span class="small">
+                IMAGE / GIF / VIDEO — STORED LOCALLY
+            </span>
+
+        </div>
+
+        <h1 class="logo">
+            MYRRR
+        </h1>
+
+        <p class="subtitle">
+            SIGNAL // UNKNOWN
+        </p>
+
+    </header>
+
+
+    <section class="panel">
+
+        <h2>IDENTITY</h2>
+
+        <p class="bio">
+
+            <span class="highlight">MYRRR</span> —
+            artist / noise / distortion.
+
+            <br><br>
+
+            Somewhere between
+            <span class="red">underground rap</span>,
+            experimental sounds and
+            corrupted signals.
+
+            <br><br>
+
+            I don't really know what this page is.
+
+            <br>
+
+            Neither does the machine.
+
+        </p>
+
+    </section>
+
+
+    <section class="panel">
+
+        <h2>TRANSMISSION</h2>
+
+        <div class="terminal">
+
+            &gt; establishing connection...<br>
+            &gt; searching for user...<br>
+            &gt; user found: MYRRR<br>
+            &gt; signal integrity: 37%<br>
+            &gt; audio detected...<br>
+            &gt; ████████████████████<br>
+            &gt; connection unstable.<br>
+            &gt; do not adjust your screen.<br>
+            &gt; <span class="cursor"></span>
+
+        </div>
+
+    </section>
+
+
+    <section class="panel">
+
+        <h2>NETWORK</h2>
+
+        <div class="links">
+
+            <a class="link" href="#" target="_blank">
+                <span>[01]</span>
+                SOUNDCLOUD
+            </a>
+
+            <a class="link" href="#" target="_blank">
+                <span>[02]</span>
+                INSTAGRAM
+            </a>
+
+            <a class="link" href="#" target="_blank">
+                <span>[03]</span>
+                YOUTUBE
+            </a>
+
+            <a class="link" href="#" target="_blank">
+                <span>[04]</span>
+                DISCORD
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <footer class="footer">
+
+        MYRRR // βLⱯCK∬S⋃Π // END OF TRANSMISSION
+
+    </footer>
+
+</main>
+
+
+<script>
+
+/* =========================
+   CLOCK
+========================= */
+
+function updateClock() {
+
+    const now = new Date();
+
+    const h = String(now.getHours()).padStart(2, "0");
+    const m = String(now.getMinutes()).padStart(2, "0");
+    const s = String(now.getSeconds()).padStart(2, "0");
+
+    document.getElementById("clock").textContent =
+        h + ":" + m + ":" + s;
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+
+
+/* =========================
+   PFP SYSTEM
+========================= */
+
+const input = document.getElementById("fileInput");
+const picture = document.getElementById("profilePicture");
+
+const savedPfp = localStorage.getItem("myrrrPfp");
+
+if (savedPfp) {
+
+    picture.src = savedPfp;
+
+}
+
+
+/* =========================
+   CHANGE PFP
+========================= */
+
+input.addEventListener("change", function(event) {
+
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+
+        const result = e.target.result;
+
+        localStorage.setItem("myrrrPfp", result);
+
+        picture.src = result;
+
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+
+/* =========================
+   VIDEO / GIF SUPPORT
+========================= */
+
+input.addEventListener("change", function(event) {
+
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    if (file.type.startsWith("video/")) {
+
+        const videoURL = URL.createObjectURL(file);
+
+        const video = document.createElement("video");
+
+        video.src = videoURL;
+        video.autoplay = true;
+        video.loop = true;
+        video.muted = true;
+        video.playsInline = true;
+
+        video.className = "pfp";
+
+        picture.replaceWith(video);
+
+        /*
+         * Les vidéos sont volontairement conservées
+         * avec URL.createObjectURL pour éviter de
+         * gonfler le localStorage.
+         */
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
