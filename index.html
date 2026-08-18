@@ -3,255 +3,135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#000000">
 
 <title>MYRRR // SIGNAL LOST</title>
 
 <style>
-
-/* =========================================================
-   RESET
-========================================================= */
-
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-html {
-    background: #000;
+html, body {
+    width: 100%;
+    min-height: 100%;
+    background: #050505;
+    color: #ddd;
+    font-family: "Courier New", monospace;
+    overflow-x: hidden;
 }
 
 body {
-    min-height: 100vh;
-    overflow-x: hidden;
-
+    position: relative;
     background:
-        radial-gradient(
-            ellipse at center,
-            #151515 0%,
-            #080808 45%,
-            #000 100%
-        );
-
-    color: #aaa;
-
-    font-family:
-        "Courier New",
-        Courier,
-        monospace;
+        radial-gradient(circle at 50% 30%, #181818 0%, #070707 45%, #000 100%);
 }
 
-
-/* =========================================================
-   VHS GLOBAL
-========================================================= */
+/* =========================
+   VHS OVERLAY
+========================= */
 
 body::before {
     content: "";
-
     position: fixed;
     inset: 0;
-
     pointer-events: none;
-
-    z-index: 900;
+    z-index: 999;
 
     background:
         repeating-linear-gradient(
             to bottom,
-            rgba(255,255,255,.035) 0px,
-            rgba(255,255,255,.035) 1px,
+            rgba(255,255,255,0.025) 0px,
+            rgba(255,255,255,0.025) 1px,
             transparent 2px,
-            transparent 5px
+            transparent 4px
         );
 
-    animation:
-        scanMove .12s infinite;
+    animation: scanlines 0.15s infinite;
 }
 
 body::after {
     content: "";
-
     position: fixed;
-    inset: -50%;
-
+    inset: -20%;
     pointer-events: none;
+    z-index: 1000;
 
-    z-index: 901;
-
-    opacity: .12;
+    opacity: 0.12;
 
     background-image:
         repeating-radial-gradient(
-            circle,
-            rgba(255,255,255,.8) 0px,
+            circle at 20% 30%,
+            #fff 0px,
             transparent 1px,
             transparent 3px
         );
 
-    background-size: 4px 4px;
-
-    animation:
-        noise .18s steps(2) infinite;
-
+    background-size: 5px 5px;
+    animation: noise 0.15s steps(2) infinite;
     mix-blend-mode: screen;
 }
 
-
-@keyframes scanMove {
-
-    0% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(2px);
-    }
-
-    100% {
-        transform: translateY(-2px);
-    }
-
+@keyframes scanlines {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(2px); }
+    100% { transform: translateY(-2px); }
 }
-
 
 @keyframes noise {
-
-    0% {
-        transform: translate(0,0);
-    }
-
-    20% {
-        transform: translate(4%,-3%);
-    }
-
-    40% {
-        transform: translate(-3%,4%);
-    }
-
-    60% {
-        transform: translate(5%,2%);
-    }
-
-    80% {
-        transform: translate(-4%,-3%);
-    }
-
-    100% {
-        transform: translate(2%,4%);
-    }
-
+    0% { transform: translate(0,0); }
+    25% { transform: translate(4%, -3%); }
+    50% { transform: translate(-3%, 4%); }
+    75% { transform: translate(3%, 3%); }
+    100% { transform: translate(-4%, -2%); }
 }
 
+/* =========================
+   MAIN
+========================= */
 
-/* =========================================================
-   VHS BARS
-========================================================= */
+.container {
+    width: min(900px, 92%);
+    margin: auto;
+    padding: 45px 0 80px;
+    position: relative;
+    z-index: 5;
+}
 
-.vhs-bar {
+/* =========================
+   VHS TIMESTAMP
+========================= */
 
+.timestamp {
     position: fixed;
-
-    left: -10%;
-
-    width: 120%;
-
-    height: 2px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,0,0,.7),
-            rgba(255,255,255,.5),
-            rgba(0,255,255,.7),
-            transparent
-        );
-
-    opacity: 0;
-
-    pointer-events: none;
-
-    z-index: 910;
-
-    animation: vhsBar 7s infinite;
-}
-
-
-.vhs-bar:nth-child(2) {
-    animation-delay: 2.4s;
-}
-
-.vhs-bar:nth-child(3) {
-    animation-delay: 5.1s;
-}
-
-
-@keyframes vhsBar {
-
-    0%, 72%, 100% {
-        top: -10%;
-        opacity: 0;
-    }
-
-    73% {
-        top: 25%;
-        opacity: .8;
-    }
-
-    74% {
-        top: 27%;
-        opacity: 0;
-    }
-
-    88% {
-        top: 75%;
-        opacity: .5;
-    }
-
-    89% {
-        opacity: 0;
-    }
-
-}
-
-
-/* =========================================================
-   TOP VHS HUD
-========================================================= */
-
-.vhs-top {
-
-    position: fixed;
-
     top: 15px;
     left: 18px;
-    right: 18px;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    z-index: 950;
-
-    pointer-events: none;
 
     font-size: 11px;
-
-    color: #888;
+    color: #aaa;
 
     text-shadow:
-        2px 0 #700000,
-        -2px 0 #004444;
+        2px 0 #f00,
+        -2px 0 #0ff;
+
+    opacity: .75;
+    z-index: 20;
 }
 
+.rec {
+    position: fixed;
+    top: 15px;
+    right: 18px;
+
+    color: #ddd;
+    font-size: 12px;
+
+    z-index: 20;
+}
 
 .rec::before {
-
     content: "";
-
     display: inline-block;
 
     width: 7px;
@@ -259,1127 +139,703 @@ body::after {
 
     margin-right: 6px;
 
+    background: #d00000;
     border-radius: 50%;
 
-    background: #a00000;
-
-    animation: recBlink .8s infinite;
+    animation: blink 1s infinite;
 }
 
-
-@keyframes recBlink {
-
-    0%, 40% {
-        opacity: 1;
-    }
-
-    41%, 100% {
-        opacity: .15;
-    }
-
+@keyframes blink {
+    50% { opacity: .15; }
 }
 
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.container {
-
-    width: min(900px, 92%);
-
-    margin: auto;
-
-    padding:
-        85px 0
-        100px;
-
-    position: relative;
-
-    z-index: 20;
-}
-
-
-/* =========================================================
-   RANDOM FLOATING TEXT
-========================================================= */
-
-.floating-text {
-
-    position: fixed;
-
-    z-index: 10;
-
-    pointer-events: none;
-
-    color: rgba(255,255,255,.035);
-
-    font-size: 10px;
-
-    animation:
-        floatText 8s infinite;
-}
-
-
-.float1 {
-    top: 30%;
-    left: 3%;
-}
-
-.float2 {
-    top: 70%;
-    right: 4%;
-    animation-delay: 3s;
-}
-
-.float3 {
-    top: 50%;
-    left: 85%;
-    animation-delay: 5s;
-}
-
-
-@keyframes floatText {
-
-    0%, 100% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    30% {
-        opacity: 1;
-    }
-
-    60% {
-        opacity: .4;
-        transform: translateY(-30px);
-    }
-
-    80% {
-        opacity: 0;
-    }
-
-}
-
-
-/* =========================================================
+/* =========================
    HEADER
-========================================================= */
+========================= */
 
 .header {
-
     text-align: center;
-
-    margin-bottom: 55px;
+    margin-bottom: 40px;
 }
 
+.logo {
+    font-size: clamp(45px, 11vw, 100px);
+    letter-spacing: -7px;
+    font-weight: bold;
 
-/* =========================================================
+    color: #eee;
+
+    text-shadow:
+        4px 0 #8c0000,
+        -4px 0 #003c3c,
+        0 0 25px rgba(255,255,255,.1);
+
+    animation: glitch 3s infinite;
+}
+
+@keyframes glitch {
+    0%, 85%, 100% {
+        transform: translate(0);
+        filter: none;
+    }
+
+    86% {
+        transform: translate(-4px, 1px);
+        filter: blur(.5px);
+    }
+
+    87% {
+        transform: translate(5px, -2px);
+        filter: contrast(1.8);
+    }
+
+    88% {
+        transform: translate(-2px, 2px);
+    }
+
+    89% {
+        transform: translate(0);
+    }
+}
+
+.subtitle {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #777;
+    letter-spacing: 4px;
+}
+
+/* =========================
    PFP
-========================================================= */
+========================= */
 
 .pfp-container {
+    width: 230px;
+    height: 230px;
+    margin: 0 auto 25px;
 
     position: relative;
-
-    width: 240px;
-    height: 240px;
-
-    margin:
-        0 auto
-        25px;
 }
 
-
 .pfp {
-
     width: 100%;
     height: 100%;
 
     object-fit: cover;
 
-    border: 1px solid #444;
-
-    background: #030303;
+    border: 1px solid #555;
 
     filter:
         grayscale(.25)
-        contrast(1.25)
+        contrast(1.2)
         brightness(.8);
 
     box-shadow:
-        0 0 0 2px #080808,
-        0 0 0 4px rgba(255,255,255,.04),
-        0 0 40px rgba(255,255,255,.05);
+        0 0 0 2px #111,
+        0 0 30px rgba(255,255,255,.05);
 
-    animation:
-        pfpGlitch 4s infinite;
+    transition: .2s;
 }
 
-
-.pfp-container::before {
-
-    content: "";
-
-    position: absolute;
-
-    inset: -10px;
-
-    border:
-        1px solid
-        rgba(255,0,0,.25);
-
-    animation:
-        pfpBorder 2.2s infinite;
-}
-
-
+.pfp-container::before,
 .pfp-container::after {
-
     content: "";
-
     position: absolute;
+    inset: -7px;
 
-    inset: 8px;
-
-    border:
-        1px solid
-        rgba(0,255,255,.15);
+    border: 1px solid rgba(255,255,255,.15);
 
     pointer-events: none;
 }
 
+.pfp-container::after {
+    inset: 7px;
 
-@keyframes pfpGlitch {
+    border-color: rgba(120,0,0,.25);
 
-    0%, 82%, 100% {
-        transform: translate(0);
-        filter:
-            grayscale(.25)
-            contrast(1.25)
-            brightness(.8);
-    }
-
-    83% {
-        transform: translate(-5px,2px);
-        filter:
-            grayscale(.7)
-            contrast(2)
-            brightness(1);
-    }
-
-    84% {
-        transform: translate(6px,-2px);
-    }
-
-    85% {
-        transform: translate(-2px,0);
-    }
-
+    animation: pfpGlitch 2.7s infinite;
 }
 
-
-@keyframes pfpBorder {
-
+@keyframes pfpGlitch {
     0%, 90%, 100% {
         transform: translate(0);
     }
 
-    91% {
-        transform: translate(8px,-3px);
-    }
-
     92% {
-        transform: translate(-6px,2px);
+        transform: translate(5px,-2px);
     }
 
+    94% {
+        transform: translate(-4px,2px);
+    }
+
+    96% {
+        transform: translate(0);
+    }
 }
 
+/* =========================
+   CHANGE PFP
+========================= */
 
-/* =========================================================
-   PFP BUTTON
-========================================================= */
-
-.change-area {
-
-    margin-bottom: 35px;
+.controls {
+    text-align: center;
+    margin-bottom: 45px;
 }
 
-
-.change-button {
-
+.change-btn {
     display: inline-block;
 
-    padding:
-        9px 16px;
+    padding: 10px 18px;
 
-    border:
-        1px solid #444;
+    border: 1px solid #555;
+    background: #090909;
 
-    background: #050505;
-
-    color: #777;
+    color: #aaa;
 
     font-family: inherit;
-
-    font-size: 10px;
+    font-size: 11px;
 
     cursor: pointer;
 
     transition: .2s;
 }
 
+.change-btn:hover {
+    color: white;
+    border-color: white;
 
-.change-button:hover {
-
-    color: #fff;
-
-    border-color: #aaa;
-
-    text-shadow:
-        2px 0 red,
-        -2px 0 cyan;
-
-    transform:
-        translateX(2px);
+    box-shadow:
+        4px 0 #8c0000,
+        -4px 0 #003c3c;
 }
-
 
 #fileInput {
     display: none;
 }
 
-
-.file-info {
-
+.small {
     display: block;
-
     margin-top: 8px;
 
-    color: #333;
-
-    font-size: 8px;
+    font-size: 9px;
+    color: #555;
 }
 
-
-/* =========================================================
-   MYRRR TITLE
-========================================================= */
-
-.logo {
-
-    position: relative;
-
-    display: inline-block;
-
-    font-size:
-        clamp(52px, 13vw, 115px);
-
-    line-height: .8;
-
-    letter-spacing: -8px;
-
-    color: #ddd;
-
-    font-weight: bold;
-
-    text-shadow:
-        5px 0 #720000,
-        -5px 0 #004747,
-        0 0 30px rgba(255,255,255,.05);
-
-    animation:
-        logoGlitch 3.8s infinite;
-}
-
-
-.logo::before,
-.logo::after {
-
-    content: "MYRRR";
-
-    position: absolute;
-
-    left: 0;
-    top: 0;
-
-    width: 100%;
-
-    overflow: hidden;
-
-    opacity: .5;
-
-}
-
-
-.logo::before {
-
-    color: #ff0000;
-
-    clip-path:
-        polygon(
-            0 0,
-            100% 0,
-            100% 42%,
-            0 42%
-        );
-
-    transform:
-        translate(-4px,0);
-
-    animation:
-        redGlitch 2s infinite;
-}
-
-
-.logo::after {
-
-    color: #00ffff;
-
-    clip-path:
-        polygon(
-            0 62%,
-            100% 62%,
-            100% 100%,
-            0 100%
-        );
-
-    transform:
-        translate(4px,0);
-
-    animation:
-        cyanGlitch 1.7s infinite;
-}
-
-
-@keyframes logoGlitch {
-
-    0%, 85%, 100% {
-        transform: skew(0);
-    }
-
-    86% {
-        transform: skew(12deg);
-    }
-
-    87% {
-        transform: skew(-7deg);
-    }
-
-    88% {
-        transform: skew(0);
-    }
-
-}
-
-
-@keyframes redGlitch {
-
-    0%, 80%, 100% {
-        transform:
-            translate(-4px,0);
-    }
-
-    82% {
-        transform:
-            translate(-14px,3px);
-    }
-
-    84% {
-        transform:
-            translate(7px,-2px);
-    }
-
-}
-
-
-@keyframes cyanGlitch {
-
-    0%, 75%, 100% {
-        transform:
-            translate(4px,0);
-    }
-
-    77% {
-        transform:
-            translate(13px,-2px);
-    }
-
-    79% {
-        transform:
-            translate(-7px,3px);
-    }
-
-}
-
-
-.subtitle {
-
-    margin-top: 15px;
-
-    color: #444;
-
-    font-size: 10px;
-
-    letter-spacing: 6px;
-
-    animation:
-        subtitleFlicker 4s infinite;
-}
-
-
-@keyframes subtitleFlicker {
-
-    0%, 80%, 100% {
-        opacity: 1;
-    }
-
-    82% {
-        opacity: .1;
-    }
-
-    84% {
-        opacity: .8;
-    }
-
-}
-
-
-/* =========================================================
-   PANELS
-========================================================= */
+/* =========================
+   BIO
+========================= */
 
 .panel {
-
     position: relative;
 
-    margin-bottom: 25px;
+    border: 1px solid #252525;
+    background: rgba(5,5,5,.82);
 
-    padding: 28px;
+    padding: 25px;
 
-    border:
-        1px solid #222;
-
-    background:
-        rgba(3,3,3,.88);
-
-    overflow: hidden;
+    margin-bottom: 22px;
 
     box-shadow:
-        inset 0 0 50px rgba(255,255,255,.015);
+        inset 0 0 40px rgba(255,255,255,.015);
 }
-
 
 .panel::before {
-
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-    left: -100%;
-
-    width: 100%;
-
-    height: 1px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            #777,
-            transparent
-        );
-
-    animation:
-        panelScan 5s infinite;
-}
-
-
-@keyframes panelScan {
-
-    0% {
-        left: -100%;
-    }
-
-    50% {
-        left: 100%;
-    }
-
-    100% {
-        left: 100%;
-    }
-
-}
-
-
-.panel-label {
-
+    content: "/// SIGNAL";
     position: absolute;
 
     top: -7px;
     left: 15px;
 
-    padding:
-        0 8px;
+    padding: 0 7px;
 
     background: #050505;
 
-    color: #444;
-
-    font-size: 8px;
-
-    letter-spacing: 2px;
-}
-
-
-.panel h2 {
-
-    margin-bottom: 20px;
-
-    color: #aaa;
-
-    font-size: 12px;
-
-    letter-spacing: 4px;
-
-    animation:
-        textFlicker 5s infinite;
-}
-
-
-@keyframes textFlicker {
-
-    0%, 93%, 100% {
-        opacity: 1;
-    }
-
-    94% {
-        opacity: .2;
-    }
-
-    95% {
-        opacity: .8;
-    }
-
-}
-
-
-/* =========================================================
-   BIO
-========================================================= */
-
-.bio {
-
-    color: #666;
-
-    font-size: 13px;
-
-    line-height: 2;
-
-    animation:
-        bioFloat 6s infinite;
-}
-
-
-@keyframes bioFloat {
-
-    0%, 100% {
-        transform: translateX(0);
-    }
-
-    50% {
-        transform: translateX(1px);
-    }
-
-}
-
-
-.highlight {
-    color: #ccc;
-}
-
-
-.red {
-    color: #850000;
-
-    animation:
-        redPulse 2s infinite;
-}
-
-
-@keyframes redPulse {
-
-    50% {
-        text-shadow:
-            0 0 8px #600000;
-    }
-
-}
-
-
-/* =========================================================
-   CORRUPTED TEXT
-========================================================= */
-
-.corrupt {
-
-    margin-top: 20px;
-
-    min-height: 18px;
-
-    color: #333;
-
-    font-size: 10px;
-
-    letter-spacing: 2px;
-
-    word-break: break-all;
-
-    animation:
-        corruptText 3s infinite;
-}
-
-
-@keyframes corruptText {
-
-    0%, 75%, 100% {
-        opacity: .4;
-        transform: translateX(0);
-    }
-
-    78% {
-        opacity: 1;
-        transform: translateX(-5px);
-    }
-
-    80% {
-        transform: translateX(6px);
-    }
-
-    82% {
-        transform: translateX(0);
-    }
-
-}
-
-
-/* =========================================================
-   TERMINAL
-========================================================= */
-
-.terminal {
-
     color: #555;
 
-    font-size: 10px;
-
-    line-height: 2;
-
-    white-space: pre-wrap;
+    font-size: 9px;
 }
 
+.panel h2 {
+    font-size: 13px;
+    color: #aaa;
+    margin-bottom: 18px;
 
-.terminal .danger {
-
-    color: #700000;
-
-    animation:
-        danger 1.5s infinite;
+    letter-spacing: 3px;
 }
 
-
-@keyframes danger {
-
-    50% {
-        opacity: .2;
-    }
-
+.bio {
+    color: #888;
+    line-height: 1.8;
+    font-size: 13px;
 }
 
+.highlight {
+    color: #ddd;
+}
 
-/* =========================================================
+.red {
+    color: #9d0000;
+}
+
+/* =========================
    LINKS
-========================================================= */
+========================= */
 
 .links {
-
     display: grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(180px,1fr)
-        );
-
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 10px;
 }
 
-
 .link {
-
-    position: relative;
-
     display: block;
 
-    padding: 16px;
+    padding: 14px;
 
-    border:
-        1px solid #222;
+    border: 1px solid #252525;
 
-    background: #060606;
-
-    color: #666;
-
+    color: #777;
     text-decoration: none;
 
-    font-size: 11px;
+    background: #080808;
 
     transition: .15s;
-
-    overflow: hidden;
 }
-
-
-.link::before {
-
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-    left: -100%;
-
-    width: 100%;
-    height: 100%;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,255,255,.06),
-            transparent
-        );
-
-    transition: .3s;
-}
-
-
-.link:hover::before {
-    left: 100%;
-}
-
 
 .link:hover {
+    color: white;
 
-    color: #eee;
+    transform: translateX(3px);
 
-    border-color: #555;
-
-    transform:
-        translateX(3px);
+    border-color: #666;
 
     text-shadow:
-        2px 0 #700000,
+        2px 0 #800000,
         -2px 0 #004444;
 }
 
-
-.link-number {
-
+.link span {
     display: block;
-
-    margin-bottom: 6px;
-
-    color: #333;
-
-    font-size: 8px;
-}
-
-
-/* =========================================================
-   BIG RANDOM MESSAGE
-========================================================= */
-
-.message {
-
-    text-align: center;
-
-    margin:
-        45px 0;
-
-    min-height: 30px;
-
-    color: #333;
-
     font-size: 9px;
-
-    letter-spacing: 3px;
-
-    animation:
-        messageGlitch 4s infinite;
+    color: #444;
+    margin-bottom: 5px;
 }
 
+/* =========================
+   TERMINAL
+========================= */
 
-@keyframes messageGlitch {
-
-    0%, 70%, 100% {
-        opacity: .35;
-        transform: translateX(0);
-    }
-
-    72% {
-        opacity: 1;
-        transform: translateX(-8px);
-    }
-
-    74% {
-        transform: translateX(8px);
-    }
-
-    76% {
-        transform: translateX(0);
-    }
-
+.terminal {
+    font-size: 11px;
+    line-height: 1.8;
+    color: #666;
 }
 
+.cursor {
+    display: inline-block;
+    width: 7px;
+    height: 12px;
+    background: #aaa;
 
-/* =========================================================
+    animation: cursor 1s infinite;
+}
+
+@keyframes cursor {
+    50% { opacity: 0; }
+}
+
+/* =========================
    FOOTER
-========================================================= */
+========================= */
 
 .footer {
-
     text-align: center;
 
-    margin-top: 65px;
+    margin-top: 50px;
 
-    color: #222;
+    font-size: 9px;
+    color: #333;
 
-    font-size: 8px;
-
-    letter-spacing: 3px;
-
-    animation:
-        footerFlicker 7s infinite;
+    letter-spacing: 2px;
 }
 
+/* =========================
+   RANDOM VHS DISTORTION
+========================= */
 
-@keyframes footerFlicker {
+.glitch-bar {
+    position: fixed;
 
-    0%, 90%, 100% {
+    width: 100%;
+    height: 2px;
+
+    left: 0;
+
+    background: rgba(255,255,255,.15);
+
+    pointer-events: none;
+
+    z-index: 998;
+
+    animation: bar 6s infinite;
+}
+
+@keyframes bar {
+    0%, 80%, 100% {
+        top: -10%;
+        opacity: 0;
+    }
+
+    82% {
+        top: 35%;
         opacity: .5;
+    }
+
+    83% {
+        top: 36%;
+        opacity: 0;
+    }
+
+    91% {
+        top: 73%;
+        opacity: .35;
     }
 
     92% {
         opacity: 0;
     }
-
 }
 
-
 /* =========================================================
-   MOBILE
+   ANALOG HORROR JUMPSCARE
 ========================================================= */
 
-@media(max-width:600px) {
+.jumpscare {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 5000;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background:
+        #000;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    overflow: hidden;
+}
+
+.jumpscare.active {
+    animation:
+        jumpscareFlash .38s steps(2);
+}
+
+.jumpscare-image {
+    width: 100vw;
+    height: 100vh;
+
+    object-fit: cover;
+
+    filter:
+        grayscale(1)
+        contrast(3)
+        brightness(.45)
+        saturate(0);
+
+    transform: scale(1.25);
+
+    mix-blend-mode: screen;
+}
+
+.jumpscare::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0px,
+            transparent 3px,
+            rgba(255,255,255,.2) 4px
+        );
+
+    animation:
+        jumpScan .04s infinite;
+}
+
+.jumpscare::after {
+    content: "DON'T LOOK AWAY";
+
+    position: absolute;
+
+    z-index: 3;
+
+    color: #fff;
+
+    font-size: clamp(20px, 6vw, 70px);
+
+    letter-spacing: 8px;
+
+    text-align: center;
+
+    text-shadow:
+        8px 0 #a00000,
+        -8px 0 #003f3f;
+
+    transform: rotate(-2deg);
+
+    animation:
+        jumpText .08s infinite;
+}
+
+@keyframes jumpscareFlash {
+
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    20% {
+        opacity: .15;
+    }
+
+    30% {
+        opacity: 1;
+    }
+
+    55% {
+        opacity: .8;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes jumpScan {
+
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(6px);
+    }
+}
+
+@keyframes jumpText {
+
+    0% {
+        transform:
+            translate(-10px,0)
+            rotate(-2deg);
+    }
+
+    50% {
+        transform:
+            translate(12px,3px)
+            rotate(2deg);
+    }
+
+    100% {
+        transform:
+            translate(-4px,-2px)
+            rotate(-1deg);
+    }
+}
+
+/* =========================
+   RANDOM RED FLASH
+========================= */
+
+.red-flash {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 4900;
+
+    background:
+        rgba(120,0,0,.35);
+
+    pointer-events: none;
+
+    opacity: 0;
+}
+
+.red-flash.active {
+    animation:
+        redFlash .2s steps(2);
+}
+
+@keyframes redFlash {
+
+    0% {
+        opacity: 0;
+    }
+
+    35% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
 
     .container {
-        width: 90%;
-        padding-top: 80px;
+        padding-top: 65px;
     }
 
     .pfp-container {
-        width: 190px;
-        height: 190px;
+        width: 180px;
+        height: 180px;
     }
 
     .panel {
-        padding: 20px;
+        padding: 18px;
     }
 
     .logo {
-        letter-spacing: -5px;
+        letter-spacing: -4px;
     }
-
-    .subtitle {
-        letter-spacing: 3px;
-    }
-
-    .vhs-top {
-        font-size: 9px;
-    }
-
 }
-
 </style>
 </head>
 
-
 <body>
 
-
-<!-- =====================================================
-     VHS HUD
-===================================================== -->
-
-<div class="vhs-top">
-
-    <div id="clock">
-        00:00:00
-    </div>
-
-    <div class="rec">
-        REC
-    </div>
-
-</div>
-
-
-<!-- VHS GLITCH BARS -->
-
-<div class="vhs-bar"></div>
-<div class="vhs-bar"></div>
-<div class="vhs-bar"></div>
-
-
-<!-- FLOATING CORRUPTED TEXT -->
-
-<div class="floating-text float1">
-    SIGNAL_NOT_FOUND
-</div>
-
-<div class="floating-text float2">
-    𐌼𐌵𐌽𐌽𐌹𐌽𐌲_𐌼𐌰𐌲𐌽𐌴𐌕𐌉𐌂
-</div>
-
-<div class="floating-text float3">
-    CONNECTION_LOST
-</div>
-
-
-<!-- =====================================================
+<!-- =========================
      BACKGROUND MUSIC
-===================================================== -->
+========================= -->
 
-<audio id="bgMusic" autoplay loop>
-
-    <source
-        src="https://github.com/user-attachments/files/31178232/symbiose.dona.-mon.taux.vibratoire.est.un.suicide-.mp3"
-        type="audio/mpeg">
-
+<audio id="bgMusic" loop>
+    <source src="https://github.com/user-attachments/files/31178232/symbiose.dona.-mon.taux.vibratoire.est.un.suicide-.mp3" type="audio/mpeg">
 </audio>
 
 
-<!-- =====================================================
+<!-- =========================
+     VHS HUD
+========================= -->
+
+<div class="timestamp" id="clock">
+00:00:00
+</div>
+
+<div class="rec">
+REC
+</div>
+
+<div class="glitch-bar"></div>
+
+
+<!-- =========================
+     JUMPSCARE LAYERS
+========================= -->
+
+<div id="jumpscare" class="jumpscare">
+
+    <img
+        id="jumpscareImage"
+        class="jumpscare-image"
+        src=""
+        alt=""
+    >
+
+</div>
+
+<div id="redFlash" class="red-flash"></div>
+
+
+<!-- =========================
      MAIN
-===================================================== -->
+========================= -->
 
 <main class="container">
 
-
-    <!-- HEADER -->
-
     <header class="header">
-
-
-        <!-- PFP -->
 
         <div class="pfp-container">
 
             <img
                 id="profilePicture"
                 class="pfp"
-                src="https://placehold.co/600x600/050505/555?text=MYRRR"
-                alt="MYRRR">
+                src="https://placehold.co/600x600/050505/777?text=MYRRR"
+                alt="MYRRR PFP"
+            >
 
         </div>
 
+        <div class="controls">
 
-        <!-- PFP CHANGE -->
-
-        <div class="change-area">
-
-            <label
-                for="fileInput"
-                class="change-button">
-
+            <label for="fileInput" class="change-btn">
                 [ CHANGE SIGNAL ]
-
             </label>
 
             <input
                 id="fileInput"
                 type="file"
-                accept="image/*,video/*">
+                accept="image/*,video/*"
+            >
 
-            <span class="file-info">
-                SELECT IMAGE / GIF / VIDEO
+            <span class="small">
+                IMAGE / GIF / VIDEO — STORED LOCALLY
             </span>
 
         </div>
-
-
-        <!-- TITLE -->
 
         <h1 class="logo">
             MYRRR
         </h1>
 
-
-        <div class="subtitle">
+        <p class="subtitle">
             SIGNAL // UNKNOWN
-        </div>
-
+        </p>
 
     </header>
 
 
-
-    <!-- RANDOM MESSAGE -->
-
-    <div
-        id="randomMessage"
-        class="message">
-
-        DO NOT ADJUST YOUR SCREEN
-
-    </div>
-
-
-
-    <!-- =================================================
-         IDENTITY
-    ================================================== -->
-
     <section class="panel">
 
-        <div class="panel-label">
-            SIGNAL_001
-        </div>
-
-        <h2>
-            IDENTITY
-        </h2>
+        <h2>IDENTITY</h2>
 
         <p class="bio">
 
-            <span class="highlight">
-                MYRRR
-            </span>
-
-            — artist / noise / distortion.
+            <span class="highlight">MYRRR</span> —
+            artist / noise / distortion.
 
             <br><br>
 
             Somewhere between
-            <span class="red">
-                underground rap
-            </span>,
-            experimental sounds,
-            corrupted frequencies
-            and things that probably
-            shouldn't have been recorded.
+            <span class="red">underground rap</span>,
+            experimental sounds and
+            corrupted signals.
 
             <br><br>
 
@@ -1391,78 +847,465 @@ body::after {
 
         </p>
 
-
-        <div class="corrupt">
-            MYRRR_MYRRR_MYRRR_SIGNAL_SIGNAL_SIGNAL_000000000000000
-        </div>
-
     </section>
 
 
-
-    <!-- =================================================
-         TRANSMISSION
-    ================================================== -->
-
     <section class="panel">
 
-        <div class="panel-label">
-            SIGNAL_002
-        </div>
-
-        <h2>
-            TRANSMISSION
-        </h2>
-
+        <h2>TRANSMISSION</h2>
 
         <div class="terminal">
 
-&gt; booting system...
-&gt; searching for identity...
-&gt; identity found: <span class="danger">MYRRR</span>
-&gt; signal integrity: 37%
-&gt; audio detected...
-&gt; visual corruption detected...
-&gt; unknown entity detected...
-&gt; connection unstable...
-&gt;
-&gt; <span class="danger">DO NOT CLOSE THIS WINDOW.</span>
-&gt;
-&gt; waiting...
+            &gt; establishing connection...<br>
+            &gt; searching for user...<br>
+            &gt; user found: MYRRR<br>
+            &gt; signal integrity: 37%<br>
+            &gt; audio detected...<br>
+            &gt; ████████████████████<br>
+            &gt; connection unstable.<br>
+            &gt; do not adjust your screen.<br>
+            &gt; <span class="cursor"></span>
 
         </div>
 
     </section>
 
 
-
-    <!-- =================================================
-         NETWORK
-    ================================================== -->
-
     <section class="panel">
 
-        <div class="panel-label">
-            SIGNAL_003
-        </div>
-
-        <h2>
-            NETWORK
-        </h2>
-
+        <h2>NETWORK</h2>
 
         <div class="links">
 
+            <a
+                class="link"
+                href="https://on.soundcloud.com/LFkcajwWNQqbSgRtE1"
+                target="_blank">
+
+                <span>[01]</span>
+                SOUNDCLOUD
+
+            </a>
 
             <a
                 class="link"
                 href="#"
                 target="_blank">
 
-                <span class="link-number">
-                    [01]
-                </span>
+                <span>[02]</span>
+                INSTAGRAM
 
-                SOUNDCLOUD
+            </a>
 
-            <
+            <a
+                class="link"
+                href="#"
+                target="_blank">
+
+                <span>[03]</span>
+                YOUTUBE
+
+            </a>
+
+            <a
+                class="link"
+                href="#"
+                target="_blank">
+
+                <span>[04]</span>
+                DISCORD
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <footer class="footer">
+
+        MYRRR // βLⱯCK∬S⋃Π // END OF TRANSMISSION
+
+    </footer>
+
+</main>
+
+
+<script>
+
+/* =========================
+   CLOCK
+========================= */
+
+function updateClock() {
+
+    const now = new Date();
+
+    const h =
+        String(now.getHours()).padStart(2, "0");
+
+    const m =
+        String(now.getMinutes()).padStart(2, "0");
+
+    const s =
+        String(now.getSeconds()).padStart(2, "0");
+
+    document.getElementById("clock").textContent =
+        h + ":" + m + ":" + s;
+}
+
+setInterval(updateClock, 1000);
+
+updateClock();
+
+
+/* =========================
+   PFP SYSTEM
+========================= */
+
+const input =
+    document.getElementById("fileInput");
+
+const picture =
+    document.getElementById("profilePicture");
+
+const savedPfp =
+    localStorage.getItem("myrrrPfp");
+
+
+if (savedPfp) {
+
+    picture.src = savedPfp;
+
+}
+
+
+/* =========================
+   CHANGE PFP
+========================= */
+
+input.addEventListener(
+    "change",
+    function(event) {
+
+        const file =
+            event.target.files[0];
+
+        if (!file) return;
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            function(e) {
+
+                const result =
+                    e.target.result;
+
+                localStorage.setItem(
+                    "myrrrPfp",
+                    result
+                );
+
+                picture.src =
+                    result;
+
+            };
+
+
+        reader.readAsDataURL(file);
+
+    }
+);
+
+
+/* =========================
+   VIDEO / GIF SUPPORT
+========================= */
+
+input.addEventListener(
+    "change",
+    function(event) {
+
+        const file =
+            event.target.files[0];
+
+        if (!file) return;
+
+
+        if (file.type.startsWith("video/")) {
+
+            const videoURL =
+                URL.createObjectURL(file);
+
+            const video =
+                document.createElement("video");
+
+            video.src =
+                videoURL;
+
+            video.autoplay = true;
+            video.loop = true;
+            video.muted = true;
+            video.playsInline = true;
+
+            video.className = "pfp";
+
+            picture.replaceWith(video);
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   ANALOG HORROR JUMPSCARES
+========================================================= */
+
+const jumpscare =
+    document.getElementById("jumpscare");
+
+const jumpscareImage =
+    document.getElementById("jumpscareImage");
+
+const redFlash =
+    document.getElementById("redFlash");
+
+
+/*
+    Récupère toujours la PFP actuellement affichée.
+*/
+
+function getCurrentPfp() {
+
+    const current =
+        document.querySelector(".pfp");
+
+    if (!current) return "";
+
+    if (current.tagName === "VIDEO") {
+
+        return "";
+
+    }
+
+    return current.src;
+}
+
+
+/*
+    Déclenche le jumpscare.
+*/
+
+function triggerJumpscare() {
+
+    const pfp =
+        getCurrentPfp();
+
+    if (!pfp) return;
+
+
+    jumpscareImage.src =
+        pfp;
+
+
+    /*
+        Petites variations aléatoires
+        pour que chaque jumpscare
+        soit légèrement différent.
+    */
+
+    const scale =
+        1.15 + Math.random() * .8;
+
+    const rotation =
+        Math.random() * 8 - 4;
+
+    const x =
+        Math.random() * 80 - 40;
+
+    const y =
+        Math.random() * 60 - 30;
+
+
+    jumpscareImage.style.transform =
+        "translate(" +
+        x +
+        "px," +
+        y +
+        "px) scale(" +
+        scale +
+        ") rotate(" +
+        rotation +
+        "deg)";
+
+
+    jumpscare.classList.remove("active");
+
+    redFlash.classList.remove("active");
+
+
+    /*
+        Force le navigateur à
+        recalculer l'animation.
+    */
+
+    void jumpscare.offsetWidth;
+
+
+    jumpscare.classList.add("active");
+
+
+    /*
+        Parfois un flash rouge
+        accompagne le jumpscare.
+    */
+
+    if (Math.random() < .65) {
+
+        void redFlash.offsetWidth;
+
+        redFlash.classList.add("active");
+
+    }
+
+
+    setTimeout(
+        () => {
+
+            jumpscare.classList.remove("active");
+            redFlash.classList.remove("active");
+
+        },
+        450
+    );
+
+}
+
+
+/*
+    Premier délai :
+
+    entre 8 et 20 secondes.
+*/
+
+function scheduleJumpscare() {
+
+    const delay =
+        8000 +
+        Math.random() * 12000;
+
+
+    setTimeout(
+        () => {
+
+            /*
+                Environ 45% de chance
+                de déclencher le jumpscare.
+
+                Sinon, on attend encore.
+            */
+
+            if (Math.random() < .45) {
+
+                triggerJumpscare();
+
+            }
+
+
+            scheduleJumpscare();
+
+        },
+        delay
+    );
+
+}
+
+
+scheduleJumpscare();
+
+
+/* =========================================================
+   RANDOM MINI GLITCH
+========================================================= */
+
+function miniGlitch() {
+
+    const elements = [
+        document.querySelector(".logo"),
+        document.querySelector(".pfp"),
+        document.querySelector(".subtitle")
+    ];
+
+
+    const element =
+        elements[
+            Math.floor(
+                Math.random() *
+                elements.length
+            )
+        ];
+
+
+    if (!element) return;
+
+
+    element.style.transform =
+        "translate(" +
+        (Math.random() * 10 - 5) +
+        "px," +
+        (Math.random() * 5 - 2.5) +
+        "px)";
+
+
+    setTimeout(
+        () => {
+
+            element.style.transform = "";
+
+        },
+        100
+    );
+
+}
+
+
+setInterval(
+    miniGlitch,
+    1800
+);
+
+
+/* =========================================================
+   AUDIO AUTOPLAY
+========================================================= */
+
+const music =
+    document.getElementById("bgMusic");
+
+music.volume = 0.5;
+
+
+window.addEventListener(
+    "load",
+    () => {
+
+        music.play().catch(
+            () => {
+
+                console.log(
+                    "Autoplay bloqué par le navigateur."
+                );
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+<
