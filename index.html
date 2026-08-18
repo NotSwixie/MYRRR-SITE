@@ -99,9 +99,7 @@ body::after {
     z-index: 5;
 }
 
-/* =========================
-   VHS TIMESTAMP
-========================= */
+/* VHS timestamp */
 
 .timestamp {
     position: fixed;
@@ -507,202 +505,6 @@ body::after {
     }
 }
 
-/* =========================================================
-   ANALOG HORROR JUMPSCARE
-========================================================= */
-
-.jumpscare {
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 5000;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    background:
-        #000;
-
-    opacity: 0;
-
-    pointer-events: none;
-
-    overflow: hidden;
-}
-
-.jumpscare.active {
-    animation:
-        jumpscareFlash .38s steps(2);
-}
-
-.jumpscare-image {
-    width: 100vw;
-    height: 100vh;
-
-    object-fit: cover;
-
-    filter:
-        grayscale(1)
-        contrast(3)
-        brightness(.45)
-        saturate(0);
-
-    transform: scale(1.25);
-
-    mix-blend-mode: screen;
-}
-
-.jumpscare::before {
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 2;
-
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            transparent 0px,
-            transparent 3px,
-            rgba(255,255,255,.2) 4px
-        );
-
-    animation:
-        jumpScan .04s infinite;
-}
-
-.jumpscare::after {
-    content: "DON'T LOOK AWAY";
-
-    position: absolute;
-
-    z-index: 3;
-
-    color: #fff;
-
-    font-size: clamp(20px, 6vw, 70px);
-
-    letter-spacing: 8px;
-
-    text-align: center;
-
-    text-shadow:
-        8px 0 #a00000,
-        -8px 0 #003f3f;
-
-    transform: rotate(-2deg);
-
-    animation:
-        jumpText .08s infinite;
-}
-
-@keyframes jumpscareFlash {
-
-    0% {
-        opacity: 0;
-    }
-
-    10% {
-        opacity: 1;
-    }
-
-    20% {
-        opacity: .15;
-    }
-
-    30% {
-        opacity: 1;
-    }
-
-    55% {
-        opacity: .8;
-    }
-
-    70% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-    }
-}
-
-@keyframes jumpScan {
-
-    from {
-        transform: translateY(0);
-    }
-
-    to {
-        transform: translateY(6px);
-    }
-}
-
-@keyframes jumpText {
-
-    0% {
-        transform:
-            translate(-10px,0)
-            rotate(-2deg);
-    }
-
-    50% {
-        transform:
-            translate(12px,3px)
-            rotate(2deg);
-    }
-
-    100% {
-        transform:
-            translate(-4px,-2px)
-            rotate(-1deg);
-    }
-}
-
-/* =========================
-   RANDOM RED FLASH
-========================= */
-
-.red-flash {
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 4900;
-
-    background:
-        rgba(120,0,0,.35);
-
-    pointer-events: none;
-
-    opacity: 0;
-}
-
-.red-flash.active {
-    animation:
-        redFlash .2s steps(2);
-}
-
-@keyframes redFlash {
-
-    0% {
-        opacity: 0;
-    }
-
-    35% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-    }
-}
-
 /* =========================
    MOBILE
 ========================= */
@@ -730,19 +532,27 @@ body::after {
 </head>
 
 <body>
-
-<!-- =========================
-     BACKGROUND MUSIC
-========================= -->
-
-<audio id="bgMusic" loop>
+    <audio id="bgMusic" loop>
     <source src="https://github.com/user-attachments/files/31178232/symbiose.dona.-mon.taux.vibratoire.est.un.suicide-.mp3" type="audio/mpeg">
 </audio>
 
+<button id="musicButton">[ PLAY SIGNAL ]</button>
+<script>
+const music = document.getElementById("bgMusic");
+const button = document.getElementById("musicButton");
 
-<!-- =========================
-     VHS HUD
-========================= -->
+button.addEventListener("click", () => {
+
+    if (music.paused) {
+        music.play();
+        button.textContent = "[ STOP SIGNAL ]";
+    } else {
+        music.pause();
+        button.textContent = "[ PLAY SIGNAL ]";
+    }
+
+});
+</script>
 
 <div class="timestamp" id="clock">
 00:00:00
@@ -753,29 +563,6 @@ REC
 </div>
 
 <div class="glitch-bar"></div>
-
-
-<!-- =========================
-     JUMPSCARE LAYERS
-========================= -->
-
-<div id="jumpscare" class="jumpscare">
-
-    <img
-        id="jumpscareImage"
-        class="jumpscare-image"
-        src=""
-        alt=""
-    >
-
-</div>
-
-<div id="redFlash" class="red-flash"></div>
-
-
-<!-- =========================
-     MAIN
-========================= -->
 
 <main class="container">
 
@@ -877,44 +664,24 @@ REC
 
         <div class="links">
 
-            <a
-                class="link"
-                href="https://on.soundcloud.com/LFkcajwWNQqbSgRtE1"
-                target="_blank">
-
+            <a class="link" href="https://on.soundcloud.com/LFkcajwWNQqbSgRtE1" target="_blank">
                 <span>[01]</span>
                 SOUNDCLOUD
-
             </a>
 
-            <a
-                class="link"
-                href="#"
-                target="_blank">
-
+            <a class="link" href="#" target="_blank">
                 <span>[02]</span>
                 INSTAGRAM
-
             </a>
 
-            <a
-                class="link"
-                href="#"
-                target="_blank">
-
+            <a class="link" href="#" target="_blank">
                 <span>[03]</span>
                 YOUTUBE
-
             </a>
 
-            <a
-                class="link"
-                href="#"
-                target="_blank">
-
+            <a class="link" href="#" target="_blank">
                 <span>[04]</span>
                 DISCORD
-
             </a>
 
         </div>
@@ -941,21 +708,15 @@ function updateClock() {
 
     const now = new Date();
 
-    const h =
-        String(now.getHours()).padStart(2, "0");
-
-    const m =
-        String(now.getMinutes()).padStart(2, "0");
-
-    const s =
-        String(now.getSeconds()).padStart(2, "0");
+    const h = String(now.getHours()).padStart(2, "0");
+    const m = String(now.getMinutes()).padStart(2, "0");
+    const s = String(now.getSeconds()).padStart(2, "0");
 
     document.getElementById("clock").textContent =
         h + ":" + m + ":" + s;
 }
 
 setInterval(updateClock, 1000);
-
 updateClock();
 
 
@@ -963,15 +724,10 @@ updateClock();
    PFP SYSTEM
 ========================= */
 
-const input =
-    document.getElementById("fileInput");
+const input = document.getElementById("fileInput");
+const picture = document.getElementById("profilePicture");
 
-const picture =
-    document.getElementById("profilePicture");
-
-const savedPfp =
-    localStorage.getItem("myrrrPfp");
-
+const savedPfp = localStorage.getItem("myrrrPfp");
 
 if (savedPfp) {
 
@@ -984,328 +740,66 @@ if (savedPfp) {
    CHANGE PFP
 ========================= */
 
-input.addEventListener(
-    "change",
-    function(event) {
+input.addEventListener("change", function(event) {
 
-        const file =
-            event.target.files[0];
+    const file = event.target.files[0];
 
-        if (!file) return;
+    if (!file) return;
 
+    const reader = new FileReader();
 
-        const reader =
-            new FileReader();
+    reader.onload = function(e) {
 
+        const result = e.target.result;
 
-        reader.onload =
-            function(e) {
+        localStorage.setItem("myrrrPfp", result);
 
-                const result =
-                    e.target.result;
+        picture.src = result;
 
-                localStorage.setItem(
-                    "myrrrPfp",
-                    result
-                );
+    };
 
-                picture.src =
-                    result;
+    reader.readAsDataURL(file);
 
-            };
-
-
-        reader.readAsDataURL(file);
-
-    }
-);
+});
 
 
 /* =========================
    VIDEO / GIF SUPPORT
 ========================= */
 
-input.addEventListener(
-    "change",
-    function(event) {
+input.addEventListener("change", function(event) {
 
-        const file =
-            event.target.files[0];
+    const file = event.target.files[0];
 
-        if (!file) return;
+    if (!file) return;
 
+    if (file.type.startsWith("video/")) {
 
-        if (file.type.startsWith("video/")) {
+        const videoURL = URL.createObjectURL(file);
 
-            const videoURL =
-                URL.createObjectURL(file);
+        const video = document.createElement("video");
 
-            const video =
-                document.createElement("video");
+        video.src = videoURL;
+        video.autoplay = true;
+        video.loop = true;
+        video.muted = true;
+        video.playsInline = true;
 
-            video.src =
-                videoURL;
+        video.className = "pfp";
 
-            video.autoplay = true;
-            video.loop = true;
-            video.muted = true;
-            video.playsInline = true;
+        picture.replaceWith(video);
 
-            video.className = "pfp";
-
-            picture.replaceWith(video);
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   ANALOG HORROR JUMPSCARES
-========================================================= */
-
-const jumpscare =
-    document.getElementById("jumpscare");
-
-const jumpscareImage =
-    document.getElementById("jumpscareImage");
-
-const redFlash =
-    document.getElementById("redFlash");
-
-
-/*
-    Récupère toujours la PFP actuellement affichée.
-*/
-
-function getCurrentPfp() {
-
-    const current =
-        document.querySelector(".pfp");
-
-    if (!current) return "";
-
-    if (current.tagName === "VIDEO") {
-
-        return "";
+        /*
+         * Les vidéos sont volontairement conservées
+         * avec URL.createObjectURL pour éviter de
+         * gonfler le localStorage.
+         */
 
     }
 
-    return current.src;
-}
-
-
-/*
-    Déclenche le jumpscare.
-*/
-
-function triggerJumpscare() {
-
-    const pfp =
-        getCurrentPfp();
-
-    if (!pfp) return;
-
-
-    jumpscareImage.src =
-        pfp;
-
-
-    /*
-        Petites variations aléatoires
-        pour que chaque jumpscare
-        soit légèrement différent.
-    */
-
-    const scale =
-        1.15 + Math.random() * .8;
-
-    const rotation =
-        Math.random() * 8 - 4;
-
-    const x =
-        Math.random() * 80 - 40;
-
-    const y =
-        Math.random() * 60 - 30;
-
-
-    jumpscareImage.style.transform =
-        "translate(" +
-        x +
-        "px," +
-        y +
-        "px) scale(" +
-        scale +
-        ") rotate(" +
-        rotation +
-        "deg)";
-
-
-    jumpscare.classList.remove("active");
-
-    redFlash.classList.remove("active");
-
-
-    /*
-        Force le navigateur à
-        recalculer l'animation.
-    */
-
-    void jumpscare.offsetWidth;
-
-
-    jumpscare.classList.add("active");
-
-
-    /*
-        Parfois un flash rouge
-        accompagne le jumpscare.
-    */
-
-    if (Math.random() < .65) {
-
-        void redFlash.offsetWidth;
-
-        redFlash.classList.add("active");
-
-    }
-
-
-    setTimeout(
-        () => {
-
-            jumpscare.classList.remove("active");
-            redFlash.classList.remove("active");
-
-        },
-        450
-    );
-
-}
-
-
-/*
-    Premier délai :
-
-    entre 8 et 20 secondes.
-*/
-
-function scheduleJumpscare() {
-
-    const delay =
-        8000 +
-        Math.random() * 12000;
-
-
-    setTimeout(
-        () => {
-
-            /*
-                Environ 45% de chance
-                de déclencher le jumpscare.
-
-                Sinon, on attend encore.
-            */
-
-            if (Math.random() < .45) {
-
-                triggerJumpscare();
-
-            }
-
-
-            scheduleJumpscare();
-
-        },
-        delay
-    );
-
-}
-
-
-scheduleJumpscare();
-
-
-/* =========================================================
-   RANDOM MINI GLITCH
-========================================================= */
-
-function miniGlitch() {
-
-    const elements = [
-        document.querySelector(".logo"),
-        document.querySelector(".pfp"),
-        document.querySelector(".subtitle")
-    ];
-
-
-    const element =
-        elements[
-            Math.floor(
-                Math.random() *
-                elements.length
-            )
-        ];
-
-
-    if (!element) return;
-
-
-    element.style.transform =
-        "translate(" +
-        (Math.random() * 10 - 5) +
-        "px," +
-        (Math.random() * 5 - 2.5) +
-        "px)";
-
-
-    setTimeout(
-        () => {
-
-            element.style.transform = "";
-
-        },
-        100
-    );
-
-}
-
-
-setInterval(
-    miniGlitch,
-    1800
-);
-
-
-/* =========================================================
-   AUDIO AUTOPLAY
-========================================================= */
-
-const music =
-    document.getElementById("bgMusic");
-
-music.volume = 0.5;
-
-
-window.addEventListener(
-    "load",
-    () => {
-
-        music.play().catch(
-            () => {
-
-                console.log(
-                    "Autoplay bloqué par le navigateur."
-                );
-
-            }
-        );
-
-    }
-);
+});
 
 </script>
 
-<
+</body>
+</html>
