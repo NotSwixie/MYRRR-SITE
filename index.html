@@ -3,133 +3,255 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
 
 <title>MYRRR // SIGNAL LOST</title>
 
 <style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-html, body {
-    width: 100%;
-    min-height: 100%;
-    background: #050505;
-    color: #ddd;
-    font-family: "Courier New", monospace;
-    overflow-x: hidden;
+html {
+    background: #000;
 }
 
 body {
-    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+
     background:
-        radial-gradient(circle at 50% 30%, #181818 0%, #070707 45%, #000 100%);
+        radial-gradient(
+            ellipse at center,
+            #151515 0%,
+            #080808 45%,
+            #000 100%
+        );
+
+    color: #aaa;
+
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
 }
 
-/* =========================
-   VHS OVERLAY
-========================= */
+
+/* =========================================================
+   VHS GLOBAL
+========================================================= */
 
 body::before {
     content: "";
+
     position: fixed;
     inset: 0;
+
     pointer-events: none;
-    z-index: 999;
+
+    z-index: 900;
 
     background:
         repeating-linear-gradient(
             to bottom,
-            rgba(255,255,255,0.025) 0px,
-            rgba(255,255,255,0.025) 1px,
+            rgba(255,255,255,.035) 0px,
+            rgba(255,255,255,.035) 1px,
             transparent 2px,
-            transparent 4px
+            transparent 5px
         );
 
-    animation: scanlines 0.15s infinite;
+    animation:
+        scanMove .12s infinite;
 }
 
 body::after {
     content: "";
-    position: fixed;
-    inset: -20%;
-    pointer-events: none;
-    z-index: 1000;
 
-    opacity: 0.12;
+    position: fixed;
+    inset: -50%;
+
+    pointer-events: none;
+
+    z-index: 901;
+
+    opacity: .12;
 
     background-image:
         repeating-radial-gradient(
-            circle at 20% 30%,
-            #fff 0px,
+            circle,
+            rgba(255,255,255,.8) 0px,
             transparent 1px,
             transparent 3px
         );
 
-    background-size: 5px 5px;
-    animation: noise 0.15s steps(2) infinite;
+    background-size: 4px 4px;
+
+    animation:
+        noise .18s steps(2) infinite;
+
     mix-blend-mode: screen;
 }
 
-@keyframes scanlines {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(2px); }
-    100% { transform: translateY(-2px); }
+
+@keyframes scanMove {
+
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(2px);
+    }
+
+    100% {
+        transform: translateY(-2px);
+    }
+
 }
+
 
 @keyframes noise {
-    0% { transform: translate(0,0); }
-    25% { transform: translate(4%, -3%); }
-    50% { transform: translate(-3%, 4%); }
-    75% { transform: translate(3%, 3%); }
-    100% { transform: translate(-4%, -2%); }
+
+    0% {
+        transform: translate(0,0);
+    }
+
+    20% {
+        transform: translate(4%,-3%);
+    }
+
+    40% {
+        transform: translate(-3%,4%);
+    }
+
+    60% {
+        transform: translate(5%,2%);
+    }
+
+    80% {
+        transform: translate(-4%,-3%);
+    }
+
+    100% {
+        transform: translate(2%,4%);
+    }
+
 }
 
-/* =========================
-   MAIN
-========================= */
 
-.container {
-    width: min(900px, 92%);
-    margin: auto;
-    padding: 45px 0 80px;
-    position: relative;
-    z-index: 5;
-}
+/* =========================================================
+   VHS BARS
+========================================================= */
 
-/* VHS timestamp */
+.vhs-bar {
 
-.timestamp {
     position: fixed;
+
+    left: -10%;
+
+    width: 120%;
+
+    height: 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,0,0,.7),
+            rgba(255,255,255,.5),
+            rgba(0,255,255,.7),
+            transparent
+        );
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    z-index: 910;
+
+    animation: vhsBar 7s infinite;
+}
+
+
+.vhs-bar:nth-child(2) {
+    animation-delay: 2.4s;
+}
+
+.vhs-bar:nth-child(3) {
+    animation-delay: 5.1s;
+}
+
+
+@keyframes vhsBar {
+
+    0%, 72%, 100% {
+        top: -10%;
+        opacity: 0;
+    }
+
+    73% {
+        top: 25%;
+        opacity: .8;
+    }
+
+    74% {
+        top: 27%;
+        opacity: 0;
+    }
+
+    88% {
+        top: 75%;
+        opacity: .5;
+    }
+
+    89% {
+        opacity: 0;
+    }
+
+}
+
+
+/* =========================================================
+   TOP VHS HUD
+========================================================= */
+
+.vhs-top {
+
+    position: fixed;
+
     top: 15px;
     left: 18px;
-
-    font-size: 11px;
-    color: #aaa;
-
-    text-shadow:
-        2px 0 #f00,
-        -2px 0 #0ff;
-
-    opacity: .75;
-    z-index: 20;
-}
-
-.rec {
-    position: fixed;
-    top: 15px;
     right: 18px;
 
-    color: #ddd;
-    font-size: 12px;
+    display: flex;
 
-    z-index: 20;
+    justify-content: space-between;
+
+    z-index: 950;
+
+    pointer-events: none;
+
+    font-size: 11px;
+
+    color: #888;
+
+    text-shadow:
+        2px 0 #700000,
+        -2px 0 #004444;
 }
 
+
 .rec::before {
+
     content: "";
+
     display: inline-block;
 
     width: 7px;
@@ -137,492 +259,1127 @@ body::after {
 
     margin-right: 6px;
 
-    background: #d00000;
     border-radius: 50%;
 
-    animation: blink 1s infinite;
+    background: #a00000;
+
+    animation: recBlink .8s infinite;
 }
 
-@keyframes blink {
-    50% { opacity: .15; }
-}
 
-/* =========================
-   HEADER
-========================= */
+@keyframes recBlink {
 
-.header {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.logo {
-    font-size: clamp(45px, 11vw, 100px);
-    letter-spacing: -7px;
-    font-weight: bold;
-
-    color: #eee;
-
-    text-shadow:
-        4px 0 #8c0000,
-        -4px 0 #003c3c,
-        0 0 25px rgba(255,255,255,.1);
-
-    animation: glitch 3s infinite;
-}
-
-@keyframes glitch {
-    0%, 85%, 100% {
-        transform: translate(0);
-        filter: none;
+    0%, 40% {
+        opacity: 1;
     }
 
-    86% {
-        transform: translate(-4px, 1px);
-        filter: blur(.5px);
+    41%, 100% {
+        opacity: .15;
     }
 
-    87% {
-        transform: translate(5px, -2px);
-        filter: contrast(1.8);
-    }
-
-    88% {
-        transform: translate(-2px, 2px);
-    }
-
-    89% {
-        transform: translate(0);
-    }
 }
 
-.subtitle {
-    margin-top: 8px;
-    font-size: 12px;
-    color: #777;
-    letter-spacing: 4px;
-}
 
-/* =========================
-   PFP
-========================= */
+/* =========================================================
+   MAIN
+========================================================= */
 
-.pfp-container {
-    width: 230px;
-    height: 230px;
-    margin: 0 auto 25px;
+.container {
+
+    width: min(900px, 92%);
+
+    margin: auto;
+
+    padding:
+        85px 0
+        100px;
 
     position: relative;
+
+    z-index: 20;
 }
 
+
+/* =========================================================
+   RANDOM FLOATING TEXT
+========================================================= */
+
+.floating-text {
+
+    position: fixed;
+
+    z-index: 10;
+
+    pointer-events: none;
+
+    color: rgba(255,255,255,.035);
+
+    font-size: 10px;
+
+    animation:
+        floatText 8s infinite;
+}
+
+
+.float1 {
+    top: 30%;
+    left: 3%;
+}
+
+.float2 {
+    top: 70%;
+    right: 4%;
+    animation-delay: 3s;
+}
+
+.float3 {
+    top: 50%;
+    left: 85%;
+    animation-delay: 5s;
+}
+
+
+@keyframes floatText {
+
+    0%, 100% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    30% {
+        opacity: 1;
+    }
+
+    60% {
+        opacity: .4;
+        transform: translateY(-30px);
+    }
+
+    80% {
+        opacity: 0;
+    }
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+
+    text-align: center;
+
+    margin-bottom: 55px;
+}
+
+
+/* =========================================================
+   PFP
+========================================================= */
+
+.pfp-container {
+
+    position: relative;
+
+    width: 240px;
+    height: 240px;
+
+    margin:
+        0 auto
+        25px;
+}
+
+
 .pfp {
+
     width: 100%;
     height: 100%;
 
     object-fit: cover;
 
-    border: 1px solid #555;
+    border: 1px solid #444;
+
+    background: #030303;
 
     filter:
         grayscale(.25)
-        contrast(1.2)
+        contrast(1.25)
         brightness(.8);
 
     box-shadow:
-        0 0 0 2px #111,
-        0 0 30px rgba(255,255,255,.05);
+        0 0 0 2px #080808,
+        0 0 0 4px rgba(255,255,255,.04),
+        0 0 40px rgba(255,255,255,.05);
 
-    transition: .2s;
+    animation:
+        pfpGlitch 4s infinite;
 }
 
-.pfp-container::before,
-.pfp-container::after {
-    content: "";
-    position: absolute;
-    inset: -7px;
 
-    border: 1px solid rgba(255,255,255,.15);
+.pfp-container::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -10px;
+
+    border:
+        1px solid
+        rgba(255,0,0,.25);
+
+    animation:
+        pfpBorder 2.2s infinite;
+}
+
+
+.pfp-container::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 8px;
+
+    border:
+        1px solid
+        rgba(0,255,255,.15);
 
     pointer-events: none;
 }
 
-.pfp-container::after {
-    inset: 7px;
-
-    border-color: rgba(120,0,0,.25);
-
-    animation: pfpGlitch 2.7s infinite;
-}
 
 @keyframes pfpGlitch {
+
+    0%, 82%, 100% {
+        transform: translate(0);
+        filter:
+            grayscale(.25)
+            contrast(1.25)
+            brightness(.8);
+    }
+
+    83% {
+        transform: translate(-5px,2px);
+        filter:
+            grayscale(.7)
+            contrast(2)
+            brightness(1);
+    }
+
+    84% {
+        transform: translate(6px,-2px);
+    }
+
+    85% {
+        transform: translate(-2px,0);
+    }
+
+}
+
+
+@keyframes pfpBorder {
+
     0%, 90%, 100% {
         transform: translate(0);
     }
 
+    91% {
+        transform: translate(8px,-3px);
+    }
+
     92% {
-        transform: translate(5px,-2px);
+        transform: translate(-6px,2px);
     }
 
-    94% {
-        transform: translate(-4px,2px);
-    }
-
-    96% {
-        transform: translate(0);
-    }
 }
 
-/* =========================
-   CHANGE PFP
-========================= */
 
-.controls {
-    text-align: center;
-    margin-bottom: 45px;
+/* =========================================================
+   PFP BUTTON
+========================================================= */
+
+.change-area {
+
+    margin-bottom: 35px;
 }
 
-.change-btn {
+
+.change-button {
+
     display: inline-block;
 
-    padding: 10px 18px;
+    padding:
+        9px 16px;
 
-    border: 1px solid #555;
-    background: #090909;
+    border:
+        1px solid #444;
 
-    color: #aaa;
+    background: #050505;
+
+    color: #777;
 
     font-family: inherit;
-    font-size: 11px;
+
+    font-size: 10px;
 
     cursor: pointer;
 
     transition: .2s;
 }
 
-.change-btn:hover {
-    color: white;
-    border-color: white;
 
-    box-shadow:
-        4px 0 #8c0000,
-        -4px 0 #003c3c;
+.change-button:hover {
+
+    color: #fff;
+
+    border-color: #aaa;
+
+    text-shadow:
+        2px 0 red,
+        -2px 0 cyan;
+
+    transform:
+        translateX(2px);
 }
+
 
 #fileInput {
     display: none;
 }
 
-.small {
+
+.file-info {
+
     display: block;
+
     margin-top: 8px;
 
-    font-size: 9px;
-    color: #555;
+    color: #333;
+
+    font-size: 8px;
 }
 
-/* =========================
-   BIO
-========================= */
 
-.panel {
+/* =========================================================
+   MYRRR TITLE
+========================================================= */
+
+.logo {
+
     position: relative;
 
-    border: 1px solid #252525;
-    background: rgba(5,5,5,.82);
+    display: inline-block;
 
-    padding: 25px;
+    font-size:
+        clamp(52px, 13vw, 115px);
 
-    margin-bottom: 22px;
+    line-height: .8;
 
-    box-shadow:
-        inset 0 0 40px rgba(255,255,255,.015);
+    letter-spacing: -8px;
+
+    color: #ddd;
+
+    font-weight: bold;
+
+    text-shadow:
+        5px 0 #720000,
+        -5px 0 #004747,
+        0 0 30px rgba(255,255,255,.05);
+
+    animation:
+        logoGlitch 3.8s infinite;
 }
 
+
+.logo::before,
+.logo::after {
+
+    content: "MYRRR";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    opacity: .5;
+
+}
+
+
+.logo::before {
+
+    color: #ff0000;
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            100% 42%,
+            0 42%
+        );
+
+    transform:
+        translate(-4px,0);
+
+    animation:
+        redGlitch 2s infinite;
+}
+
+
+.logo::after {
+
+    color: #00ffff;
+
+    clip-path:
+        polygon(
+            0 62%,
+            100% 62%,
+            100% 100%,
+            0 100%
+        );
+
+    transform:
+        translate(4px,0);
+
+    animation:
+        cyanGlitch 1.7s infinite;
+}
+
+
+@keyframes logoGlitch {
+
+    0%, 85%, 100% {
+        transform: skew(0);
+    }
+
+    86% {
+        transform: skew(12deg);
+    }
+
+    87% {
+        transform: skew(-7deg);
+    }
+
+    88% {
+        transform: skew(0);
+    }
+
+}
+
+
+@keyframes redGlitch {
+
+    0%, 80%, 100% {
+        transform:
+            translate(-4px,0);
+    }
+
+    82% {
+        transform:
+            translate(-14px,3px);
+    }
+
+    84% {
+        transform:
+            translate(7px,-2px);
+    }
+
+}
+
+
+@keyframes cyanGlitch {
+
+    0%, 75%, 100% {
+        transform:
+            translate(4px,0);
+    }
+
+    77% {
+        transform:
+            translate(13px,-2px);
+    }
+
+    79% {
+        transform:
+            translate(-7px,3px);
+    }
+
+}
+
+
+.subtitle {
+
+    margin-top: 15px;
+
+    color: #444;
+
+    font-size: 10px;
+
+    letter-spacing: 6px;
+
+    animation:
+        subtitleFlicker 4s infinite;
+}
+
+
+@keyframes subtitleFlicker {
+
+    0%, 80%, 100% {
+        opacity: 1;
+    }
+
+    82% {
+        opacity: .1;
+    }
+
+    84% {
+        opacity: .8;
+    }
+
+}
+
+
+/* =========================================================
+   PANELS
+========================================================= */
+
+.panel {
+
+    position: relative;
+
+    margin-bottom: 25px;
+
+    padding: 28px;
+
+    border:
+        1px solid #222;
+
+    background:
+        rgba(3,3,3,.88);
+
+    overflow: hidden;
+
+    box-shadow:
+        inset 0 0 50px rgba(255,255,255,.015);
+}
+
+
 .panel::before {
-    content: "/// SIGNAL";
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 100%;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #777,
+            transparent
+        );
+
+    animation:
+        panelScan 5s infinite;
+}
+
+
+@keyframes panelScan {
+
+    0% {
+        left: -100%;
+    }
+
+    50% {
+        left: 100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+
+}
+
+
+.panel-label {
+
     position: absolute;
 
     top: -7px;
     left: 15px;
 
-    padding: 0 7px;
+    padding:
+        0 8px;
 
     background: #050505;
 
-    color: #555;
-
-    font-size: 9px;
-}
-
-.panel h2 {
-    font-size: 13px;
-    color: #aaa;
-    margin-bottom: 18px;
-
-    letter-spacing: 3px;
-}
-
-.bio {
-    color: #888;
-    line-height: 1.8;
-    font-size: 13px;
-}
-
-.highlight {
-    color: #ddd;
-}
-
-.red {
-    color: #9d0000;
-}
-
-/* =========================
-   LINKS
-========================= */
-
-.links {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 10px;
-}
-
-.link {
-    display: block;
-
-    padding: 14px;
-
-    border: 1px solid #252525;
-
-    color: #777;
-    text-decoration: none;
-
-    background: #080808;
-
-    transition: .15s;
-}
-
-.link:hover {
-    color: white;
-
-    transform: translateX(3px);
-
-    border-color: #666;
-
-    text-shadow:
-        2px 0 #800000,
-        -2px 0 #004444;
-}
-
-.link span {
-    display: block;
-    font-size: 9px;
     color: #444;
-    margin-bottom: 5px;
-}
 
-/* =========================
-   TERMINAL
-========================= */
-
-.terminal {
-    font-size: 11px;
-    line-height: 1.8;
-    color: #666;
-}
-
-.cursor {
-    display: inline-block;
-    width: 7px;
-    height: 12px;
-    background: #aaa;
-
-    animation: cursor 1s infinite;
-}
-
-@keyframes cursor {
-    50% { opacity: 0; }
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-.footer {
-    text-align: center;
-
-    margin-top: 50px;
-
-    font-size: 9px;
-    color: #333;
+    font-size: 8px;
 
     letter-spacing: 2px;
 }
 
-/* =========================
-   RANDOM VHS DISTORTION
-========================= */
 
-.glitch-bar {
-    position: fixed;
+.panel h2 {
 
-    width: 100%;
-    height: 2px;
+    margin-bottom: 20px;
 
-    left: 0;
+    color: #aaa;
 
-    background: rgba(255,255,255,.15);
+    font-size: 12px;
 
-    pointer-events: none;
+    letter-spacing: 4px;
 
-    z-index: 998;
-
-    animation: bar 6s infinite;
+    animation:
+        textFlicker 5s infinite;
 }
 
-@keyframes bar {
-    0%, 80%, 100% {
-        top: -10%;
-        opacity: 0;
+
+@keyframes textFlicker {
+
+    0%, 93%, 100% {
+        opacity: 1;
+    }
+
+    94% {
+        opacity: .2;
+    }
+
+    95% {
+        opacity: .8;
+    }
+
+}
+
+
+/* =========================================================
+   BIO
+========================================================= */
+
+.bio {
+
+    color: #666;
+
+    font-size: 13px;
+
+    line-height: 2;
+
+    animation:
+        bioFloat 6s infinite;
+}
+
+
+@keyframes bioFloat {
+
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(1px);
+    }
+
+}
+
+
+.highlight {
+    color: #ccc;
+}
+
+
+.red {
+    color: #850000;
+
+    animation:
+        redPulse 2s infinite;
+}
+
+
+@keyframes redPulse {
+
+    50% {
+        text-shadow:
+            0 0 8px #600000;
+    }
+
+}
+
+
+/* =========================================================
+   CORRUPTED TEXT
+========================================================= */
+
+.corrupt {
+
+    margin-top: 20px;
+
+    min-height: 18px;
+
+    color: #333;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    word-break: break-all;
+
+    animation:
+        corruptText 3s infinite;
+}
+
+
+@keyframes corruptText {
+
+    0%, 75%, 100% {
+        opacity: .4;
+        transform: translateX(0);
+    }
+
+    78% {
+        opacity: 1;
+        transform: translateX(-5px);
+    }
+
+    80% {
+        transform: translateX(6px);
     }
 
     82% {
-        top: 35%;
-        opacity: .5;
+        transform: translateX(0);
     }
 
-    83% {
-        top: 36%;
-        opacity: 0;
+}
+
+
+/* =========================================================
+   TERMINAL
+========================================================= */
+
+.terminal {
+
+    color: #555;
+
+    font-size: 10px;
+
+    line-height: 2;
+
+    white-space: pre-wrap;
+}
+
+
+.terminal .danger {
+
+    color: #700000;
+
+    animation:
+        danger 1.5s infinite;
+}
+
+
+@keyframes danger {
+
+    50% {
+        opacity: .2;
     }
 
-    91% {
-        top: 73%;
+}
+
+
+/* =========================================================
+   LINKS
+========================================================= */
+
+.links {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(180px,1fr)
+        );
+
+    gap: 10px;
+}
+
+
+.link {
+
+    position: relative;
+
+    display: block;
+
+    padding: 16px;
+
+    border:
+        1px solid #222;
+
+    background: #060606;
+
+    color: #666;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    transition: .15s;
+
+    overflow: hidden;
+}
+
+
+.link::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 100%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.06),
+            transparent
+        );
+
+    transition: .3s;
+}
+
+
+.link:hover::before {
+    left: 100%;
+}
+
+
+.link:hover {
+
+    color: #eee;
+
+    border-color: #555;
+
+    transform:
+        translateX(3px);
+
+    text-shadow:
+        2px 0 #700000,
+        -2px 0 #004444;
+}
+
+
+.link-number {
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #333;
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   BIG RANDOM MESSAGE
+========================================================= */
+
+.message {
+
+    text-align: center;
+
+    margin:
+        45px 0;
+
+    min-height: 30px;
+
+    color: #333;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+
+    animation:
+        messageGlitch 4s infinite;
+}
+
+
+@keyframes messageGlitch {
+
+    0%, 70%, 100% {
         opacity: .35;
+        transform: translateX(0);
+    }
+
+    72% {
+        opacity: 1;
+        transform: translateX(-8px);
+    }
+
+    74% {
+        transform: translateX(8px);
+    }
+
+    76% {
+        transform: translateX(0);
+    }
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+
+    text-align: center;
+
+    margin-top: 65px;
+
+    color: #222;
+
+    font-size: 8px;
+
+    letter-spacing: 3px;
+
+    animation:
+        footerFlicker 7s infinite;
+}
+
+
+@keyframes footerFlicker {
+
+    0%, 90%, 100% {
+        opacity: .5;
     }
 
     92% {
         opacity: 0;
     }
+
 }
 
-/* =========================
-   MOBILE
-========================= */
 
-@media (max-width: 600px) {
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:600px) {
 
     .container {
-        padding-top: 65px;
+        width: 90%;
+        padding-top: 80px;
     }
 
     .pfp-container {
-        width: 180px;
-        height: 180px;
+        width: 190px;
+        height: 190px;
     }
 
     .panel {
-        padding: 18px;
+        padding: 20px;
     }
 
     .logo {
-        letter-spacing: -4px;
+        letter-spacing: -5px;
     }
+
+    .subtitle {
+        letter-spacing: 3px;
+    }
+
+    .vhs-top {
+        font-size: 9px;
+    }
+
 }
+
 </style>
 </head>
 
+
 <body>
-    <audio id="bgMusic" loop>
-    <source src="https://github.com/user-attachments/files/31178232/symbiose.dona.-mon.taux.vibratoire.est.un.suicide-.mp3" type="audio/mpeg">
+
+
+<!-- =====================================================
+     VHS HUD
+===================================================== -->
+
+<div class="vhs-top">
+
+    <div id="clock">
+        00:00:00
+    </div>
+
+    <div class="rec">
+        REC
+    </div>
+
+</div>
+
+
+<!-- VHS GLITCH BARS -->
+
+<div class="vhs-bar"></div>
+<div class="vhs-bar"></div>
+<div class="vhs-bar"></div>
+
+
+<!-- FLOATING CORRUPTED TEXT -->
+
+<div class="floating-text float1">
+    SIGNAL_NOT_FOUND
+</div>
+
+<div class="floating-text float2">
+    𐌼𐌵𐌽𐌽𐌹𐌽𐌲_𐌼𐌰𐌲𐌽𐌴𐌕𐌉𐌂
+</div>
+
+<div class="floating-text float3">
+    CONNECTION_LOST
+</div>
+
+
+<!-- =====================================================
+     BACKGROUND MUSIC
+===================================================== -->
+
+<audio id="bgMusic" autoplay loop>
+
+    <source
+        src="https://github.com/user-attachments/files/31178232/symbiose.dona.-mon.taux.vibratoire.est.un.suicide-.mp3"
+        type="audio/mpeg">
+
 </audio>
 
-<button id="musicButton">[ PLAY SIGNAL ]</button>
-<script>
-const music = document.getElementById("bgMusic");
-const button = document.getElementById("musicButton");
 
-button.addEventListener("click", () => {
-
-    if (music.paused) {
-        music.play();
-        button.textContent = "[ STOP SIGNAL ]";
-    } else {
-        music.pause();
-        button.textContent = "[ PLAY SIGNAL ]";
-    }
-
-});
-</script>
-
-<div class="timestamp" id="clock">
-00:00:00
-</div>
-
-<div class="rec">
-REC
-</div>
-
-<div class="glitch-bar"></div>
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
 <main class="container">
 
+
+    <!-- HEADER -->
+
     <header class="header">
+
+
+        <!-- PFP -->
 
         <div class="pfp-container">
 
             <img
                 id="profilePicture"
                 class="pfp"
-                src="https://placehold.co/600x600/050505/777?text=MYRRR"
-                alt="MYRRR PFP"
-            >
+                src="https://placehold.co/600x600/050505/555?text=MYRRR"
+                alt="MYRRR">
 
         </div>
 
-        <div class="controls">
 
-            <label for="fileInput" class="change-btn">
+        <!-- PFP CHANGE -->
+
+        <div class="change-area">
+
+            <label
+                for="fileInput"
+                class="change-button">
+
                 [ CHANGE SIGNAL ]
+
             </label>
 
             <input
                 id="fileInput"
                 type="file"
-                accept="image/*,video/*"
-            >
+                accept="image/*,video/*">
 
-            <span class="small">
-                IMAGE / GIF / VIDEO — STORED LOCALLY
+            <span class="file-info">
+                SELECT IMAGE / GIF / VIDEO
             </span>
 
         </div>
+
+
+        <!-- TITLE -->
 
         <h1 class="logo">
             MYRRR
         </h1>
 
-        <p class="subtitle">
+
+        <div class="subtitle">
             SIGNAL // UNKNOWN
-        </p>
+        </div>
+
 
     </header>
 
 
+
+    <!-- RANDOM MESSAGE -->
+
+    <div
+        id="randomMessage"
+        class="message">
+
+        DO NOT ADJUST YOUR SCREEN
+
+    </div>
+
+
+
+    <!-- =================================================
+         IDENTITY
+    ================================================== -->
+
     <section class="panel">
 
-        <h2>IDENTITY</h2>
+        <div class="panel-label">
+            SIGNAL_001
+        </div>
+
+        <h2>
+            IDENTITY
+        </h2>
 
         <p class="bio">
 
-            <span class="highlight">MYRRR</span> —
-            artist / noise / distortion.
+            <span class="highlight">
+                MYRRR
+            </span>
+
+            — artist / noise / distortion.
 
             <br><br>
 
             Somewhere between
-            <span class="red">underground rap</span>,
-            experimental sounds and
-            corrupted signals.
+            <span class="red">
+                underground rap
+            </span>,
+            experimental sounds,
+            corrupted frequencies
+            and things that probably
+            shouldn't have been recorded.
 
             <br><br>
 
@@ -634,172 +1391,78 @@ REC
 
         </p>
 
+
+        <div class="corrupt">
+            MYRRR_MYRRR_MYRRR_SIGNAL_SIGNAL_SIGNAL_000000000000000
+        </div>
+
     </section>
 
 
+
+    <!-- =================================================
+         TRANSMISSION
+    ================================================== -->
+
     <section class="panel">
 
-        <h2>TRANSMISSION</h2>
+        <div class="panel-label">
+            SIGNAL_002
+        </div>
+
+        <h2>
+            TRANSMISSION
+        </h2>
+
 
         <div class="terminal">
 
-            &gt; establishing connection...<br>
-            &gt; searching for user...<br>
-            &gt; user found: MYRRR<br>
-            &gt; signal integrity: 37%<br>
-            &gt; audio detected...<br>
-            &gt; ████████████████████<br>
-            &gt; connection unstable.<br>
-            &gt; do not adjust your screen.<br>
-            &gt; <span class="cursor"></span>
+&gt; booting system...
+&gt; searching for identity...
+&gt; identity found: <span class="danger">MYRRR</span>
+&gt; signal integrity: 37%
+&gt; audio detected...
+&gt; visual corruption detected...
+&gt; unknown entity detected...
+&gt; connection unstable...
+&gt;
+&gt; <span class="danger">DO NOT CLOSE THIS WINDOW.</span>
+&gt;
+&gt; waiting...
 
         </div>
 
     </section>
 
+
+
+    <!-- =================================================
+         NETWORK
+    ================================================== -->
 
     <section class="panel">
 
-        <h2>NETWORK</h2>
+        <div class="panel-label">
+            SIGNAL_003
+        </div>
+
+        <h2>
+            NETWORK
+        </h2>
+
 
         <div class="links">
 
-            <a class="link" href="https://on.soundcloud.com/LFkcajwWNQqbSgRtE1" target="_blank">
-                <span>[01]</span>
+
+            <a
+                class="link"
+                href="#"
+                target="_blank">
+
+                <span class="link-number">
+                    [01]
+                </span>
+
                 SOUNDCLOUD
-            </a>
 
-            <a class="link" href="#" target="_blank">
-                <span>[02]</span>
-                INSTAGRAM
-            </a>
-
-            <a class="link" href="#" target="_blank">
-                <span>[03]</span>
-                YOUTUBE
-            </a>
-
-            <a class="link" href="#" target="_blank">
-                <span>[04]</span>
-                DISCORD
-            </a>
-
-        </div>
-
-    </section>
-
-
-    <footer class="footer">
-
-        MYRRR // βLⱯCK∬S⋃Π // END OF TRANSMISSION
-
-    </footer>
-
-</main>
-
-
-<script>
-
-/* =========================
-   CLOCK
-========================= */
-
-function updateClock() {
-
-    const now = new Date();
-
-    const h = String(now.getHours()).padStart(2, "0");
-    const m = String(now.getMinutes()).padStart(2, "0");
-    const s = String(now.getSeconds()).padStart(2, "0");
-
-    document.getElementById("clock").textContent =
-        h + ":" + m + ":" + s;
-}
-
-setInterval(updateClock, 1000);
-updateClock();
-
-
-/* =========================
-   PFP SYSTEM
-========================= */
-
-const input = document.getElementById("fileInput");
-const picture = document.getElementById("profilePicture");
-
-const savedPfp = localStorage.getItem("myrrrPfp");
-
-if (savedPfp) {
-
-    picture.src = savedPfp;
-
-}
-
-
-/* =========================
-   CHANGE PFP
-========================= */
-
-input.addEventListener("change", function(event) {
-
-    const file = event.target.files[0];
-
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-
-        const result = e.target.result;
-
-        localStorage.setItem("myrrrPfp", result);
-
-        picture.src = result;
-
-    };
-
-    reader.readAsDataURL(file);
-
-});
-
-
-/* =========================
-   VIDEO / GIF SUPPORT
-========================= */
-
-input.addEventListener("change", function(event) {
-
-    const file = event.target.files[0];
-
-    if (!file) return;
-
-    if (file.type.startsWith("video/")) {
-
-        const videoURL = URL.createObjectURL(file);
-
-        const video = document.createElement("video");
-
-        video.src = videoURL;
-        video.autoplay = true;
-        video.loop = true;
-        video.muted = true;
-        video.playsInline = true;
-
-        video.className = "pfp";
-
-        picture.replaceWith(video);
-
-        /*
-         * Les vidéos sont volontairement conservées
-         * avec URL.createObjectURL pour éviter de
-         * gonfler le localStorage.
-         */
-
-    }
-
-});
-
-</script>
-
-</body>
-</html>
+            <
